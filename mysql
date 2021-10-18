@@ -1,1 +1,56 @@
-test
+import pymysql
+db = pymysql.connect(host="localhost",port=3306,user="root",password="",database="test",charset='utf8')#连接数据库
+c = db.cursor()
+
+
+#增删改查
+#创建表
+#createsql="create table test2(name char(10),age int,location char(10))"
+
+# result = cursor.fetchone()  返回一条数据
+# result = cursor.fetchall() 返回全部结果
+
+#sql 插入语句
+
+# sqlinsert="""INSERT INTO SCORE(姓名,
+#          年龄,性别,分数)
+#          VALUES ('wewe', 8, '女',100)"""#insert into xxx(类型，xx,xx)values(值，xxx）
+
+#如何批量插入
+# a=["赵","钱","孙"]
+# b=[22,26,28]
+# c=["男","女","男"]
+# d=[321,562,999]
+# for i in range(3):
+#    sqlinsert2="insert into score(姓名,年龄,性别,分数)\
+#             values(%s,%d,%s,%d)"%(a[i],int(b[i]),c[i],int(d[i]))
+
+#sql更新语句  update set
+
+#sqlupdate="update score set 年龄=10 where 分数=301"#把性别是男的，年龄都加一
+
+#删除
+
+#sqldelte="delete from score where 姓名='jzh'"
+try:
+   # 执行SQL语句
+   c.execute()#执行语句
+   db.commit()#提交到数据库执行
+   c.execute('select * from test2')#执行选择语句
+   results = c.fetchall()# 获取所有记录列表
+   print(results)
+   #print(type(results))#全是元祖类型
+   for row in results:#((0,0,0),(1,1,1)) row=(0,0,0)
+      fname = row[0]
+      age = row[1]
+      sex = row[2]
+      score = row[3]
+      # 打印结果
+      print (fname, age, sex, score )
+      print(row)
+      print(type(row))
+
+
+except:
+   db.rollback()#发生错误时回滚  插入时用
+   print("Error: unable to fecth data")
